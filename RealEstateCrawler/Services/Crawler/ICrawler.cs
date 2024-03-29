@@ -1,6 +1,8 @@
-﻿namespace RealEstateCrawler.Services.Crawler;
+﻿using RealEstateCrawler.Data.Models;
+
+namespace RealEstateCrawler.Services.Crawler;
 
 public interface ICrawler
 {
-    public Task StartCrawling();
+    public Task<List<Scrap>> StartCrawling();
 }

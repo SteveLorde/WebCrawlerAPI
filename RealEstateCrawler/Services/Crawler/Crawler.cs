@@ -1,5 +1,7 @@
 ﻿using System.Text.RegularExpressions;
+using HtmlAgilityPack;
 using RealEstateCrawler.Data;
+using RealEstateCrawler.Data.Models;
 
 namespace RealEstateCrawler.Services.Crawler;
 
@@ -16,14 +18,43 @@ class Crawler : ICrawler
         _hostenv = hostenv;
     }
     
-    public async Task StartCrawling()
+    public async Task<List<Scrap>> StartCrawling()
     {
-        throw new NotImplementedException();
+        List<Scrap> scraps = new List<Scrap>();
+        var texturls = TextURLExtract();
+        foreach (var url in texturls)
+        {
+            Scrap scrap = await Scrape(url);
+            scraps.Add(scrap);
+        }
+        return scraps;
     }
 
-    private async Task Scrape()
+    private async Task<Scrap> Scrape(string url)
     {
-        
+        Scrap scrap = new Scrap();
+        HttpResponseMessage httpResponse = await _httpClient.GetAsync(url);
+        string htmlContent = httpResponse.Content.ToString();
+        HtmlDocument htmlDocument = new HtmlDocument();
+        htmlDocument.LoadHtml(htmlContent);
+        //Get Wished Data
+
+
+        //Get Other Links in Page
+        scrap.ExtractedURLS = ExtractPageUrls(htmlDocument);
+        return scrap;
+    }
+
+    private List<string> ExtractPageUrls(HtmlDocument htmlDocument)
+    {
+        List<string> extractedurls = new List<string>();
+        var anchorNodes = htmlDocument.DocumentNode.SelectNodes("//a[@href");
+        foreach (var anchornode in anchorNodes)
+        {
+            var link = anchornode.GetAttributeValue("href", "");
+            extractedurls.Add(link);
+        }
+        return extractedurls;
     }
 
     private List<string> TextURLExtract()
