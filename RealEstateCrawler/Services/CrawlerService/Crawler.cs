@@ -3,7 +3,7 @@ using HtmlAgilityPack;
 using RealEstateCrawler.Data;
 using RealEstateCrawler.Data.Models;
 
-namespace RealEstateCrawler.Services.Crawler;
+namespace RealEstateCrawler.Services.CrawlerService;
 
 class Crawler : ICrawler
 {

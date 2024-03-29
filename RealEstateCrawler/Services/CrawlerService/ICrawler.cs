@@ -1,6 +1,6 @@
 ﻿using RealEstateCrawler.Data.Models;
 
-namespace RealEstateCrawler.Services.Crawler;
+namespace RealEstateCrawler.Services.CrawlerService;
 
 public interface ICrawler
 {
