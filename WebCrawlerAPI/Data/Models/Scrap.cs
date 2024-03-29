@@ -1,4 +1,4 @@
-﻿namespace RealEstateCrawler.Data.Models;
+﻿namespace WebCrawlerAPI.Data.Models;
 
 public class Scrap
 {

@@ -1,9 +1,9 @@
 ﻿using System.Text.RegularExpressions;
 using HtmlAgilityPack;
-using RealEstateCrawler.Data;
-using RealEstateCrawler.Data.Models;
+using WebCrawlerAPI.Data;
+using WebCrawlerAPI.Data.Models;
 
-namespace RealEstateCrawler.Services.CrawlerService;
+namespace WebCrawlerAPI.Services.CrawlerService;
 
 class Crawler : ICrawler
 {

@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace RealEstateCrawler.Data;
+namespace WebCrawlerAPI.Data;
 
 public class DataContext : DbContext
 {

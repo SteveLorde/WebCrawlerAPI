@@ -1,5 +1,5 @@
 ﻿using RealEstateCrawler.Data;
-using RealEstateCrawler.Services.CrawlerService;
+using WebCrawlerAPI.Services.CrawlerService;
 
 namespace RealEstateCrawler.Services;
 
