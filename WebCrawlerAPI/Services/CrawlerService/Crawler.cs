@@ -41,7 +41,7 @@ class Crawler : ICrawler
 
 
         //Get Other Links in Page
-        scrap.ExtractedURLS = ExtractPageUrls(htmlDocument);
+        scrap.Extractedurls = ExtractPageUrls(htmlDocument);
         return scrap;
     }
 

@@ -2,6 +2,6 @@
 
 public class Scrap
 {
-    public List<string> ExtractedData { get; set; }
-    public List<string> ExtractedURLS { get; set; }
+    public List<string> Extracteddata { get; set; }
+    public List<string> Extractedurls { get; set; }
 }
