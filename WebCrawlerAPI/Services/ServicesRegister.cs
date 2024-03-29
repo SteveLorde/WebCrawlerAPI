@@ -1,7 +1,7 @@
-﻿using RealEstateCrawler.Data;
+﻿using WebCrawlerAPI.Data;
 using WebCrawlerAPI.Services.CrawlerService;
 
-namespace RealEstateCrawler.Services;
+namespace WebCrawlerAPI.Services;
 
 public static class ServicesRegister
 {
