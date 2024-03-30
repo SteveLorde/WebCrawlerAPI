@@ -6,11 +6,11 @@ namespace WebCrawlerAPI.Controller;
 
 [ApiController]
 [Route("crawler")]
-public class APIController : Microsoft.AspNetCore.Mvc.Controller
+public class MainController : Microsoft.AspNetCore.Mvc.Controller
 {
     private readonly ICrawler _crawler;
 
-    public APIController(ICrawler crawler)
+    public MainController(ICrawler crawler)
     {
         _crawler = crawler;
     }
