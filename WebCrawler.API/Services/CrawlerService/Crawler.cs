@@ -21,8 +21,8 @@ class Crawler : ICrawler
     public async Task<List<Scrap>> StartCrawling()
     {
         List<Scrap> scraps = new List<Scrap>();
-        var texturls = TextURLExtract();
-        foreach (var url in texturls)
+        var textUrls = TextURLExtract();
+        foreach (var url in textUrls)
         {
             Scrap scrap = await Scrape(url);
             scraps.Add(scrap);
@@ -44,17 +44,17 @@ class Crawler : ICrawler
         scrap.Extractedurls = ExtractPageUrls(htmlDocument);
         return scrap;
     }
-
+    
     private List<string> ExtractPageUrls(HtmlDocument htmlDocument)
     {
-        List<string> extractedurls = new List<string>();
+        List<string> extractedUrls = new List<string>();
         var anchorNodes = htmlDocument.DocumentNode.SelectNodes("//a[@href");
         foreach (var anchornode in anchorNodes)
         {
             var link = anchornode.GetAttributeValue("href", "");
-            extractedurls.Add(link);
+            extractedUrls.Add(link);
         }
-        return extractedurls;
+        return extractedUrls;
     }
 
     private List<string> TextURLExtract()

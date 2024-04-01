@@ -19,7 +19,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\WebCrawlerDataLayer\WebCrawlerDataLayer.csproj" />
+      <ProjectReference Include="..\WebCrawler.Data\WebCrawler.Data.csproj" />
     </ItemGroup>
 
 </Project>
