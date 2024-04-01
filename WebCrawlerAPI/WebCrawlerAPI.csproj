@@ -19,10 +19,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Data\" />
-    </ItemGroup>
-
-    <ItemGroup>
       <ProjectReference Include="..\WebCrawlerDataLayer\WebCrawlerDataLayer.csproj" />
     </ItemGroup>
 
