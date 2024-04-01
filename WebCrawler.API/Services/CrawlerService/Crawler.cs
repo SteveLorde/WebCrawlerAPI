@@ -37,18 +37,24 @@ class Crawler : ICrawler
         string htmlContent = httpResponse.Content.ToString();
         HtmlDocument htmlDocument = new HtmlDocument();
         htmlDocument.LoadHtml(htmlContent);
+        
         //Get Wished Data
-
-
+        scrap.Extracteddata = ExtractPageData(htmlDocument);
         //Get Other Links in Page
         scrap.Extractedurls = ExtractPageUrls(htmlDocument);
+        
         return scrap;
+    }
+
+    private void ExtractPageData(HtmlDocument htmlDocument)
+    {
+        
     }
     
     private List<string> ExtractPageUrls(HtmlDocument htmlDocument)
     {
         List<string> extractedUrls = new List<string>();
-        var anchorNodes = htmlDocument.DocumentNode.SelectNodes("//a[@href");
+        var anchorNodes = htmlDocument.DocumentNode.SelectNodes("a");
         foreach (var anchornode in anchorNodes)
         {
             var link = anchornode.GetAttributeValue("href", "");
@@ -57,6 +63,7 @@ class Crawler : ICrawler
         return extractedUrls;
     }
 
+    //METHOD TO WORK WITH GIVEN URLS IN TEXT FILES
     private List<string> TextURLExtract()
     {
         List<string> requestedUrls = new List<string>();
