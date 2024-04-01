@@ -1,4 +1,4 @@
-﻿using WebCrawlerAPI.Data.Models;
+﻿using WebCrawlerDataLayer.Data.Models;
 
 namespace WebCrawlerAPI.Services.CrawlerService;
 

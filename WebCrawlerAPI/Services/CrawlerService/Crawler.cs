@@ -1,7 +1,7 @@
 ﻿using System.Text.RegularExpressions;
 using HtmlAgilityPack;
-using WebCrawlerAPI.Data;
-using WebCrawlerAPI.Data.Models;
+using WebCrawlerDataLayer.Data;
+using WebCrawlerDataLayer.Data.Models;
 
 namespace WebCrawlerAPI.Services.CrawlerService;
 

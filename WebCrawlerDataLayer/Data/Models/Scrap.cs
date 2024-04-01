@@ -1,4 +1,4 @@
-﻿namespace WebCrawlerAPI.Data.Models;
+﻿namespace WebCrawlerDataLayer.Data.Models;
 
 public class Scrap
 {
