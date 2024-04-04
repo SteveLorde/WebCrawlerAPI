@@ -1,11 +1,12 @@
 ﻿using System.Text.RegularExpressions;
 using HtmlAgilityPack;
+using Microsoft.AspNetCore.Hosting;
 using WebCrawlerDataLayer.Data;
 using WebCrawlerDataLayer.Data.Models;
 
-namespace WebCrawlerAPI.Services.CrawlerService;
+namespace WebCrawler.Services.Services.CrawlerService;
 
-class Crawler : ICrawler
+public class Crawler : ICrawler
 {
     private readonly HttpClient _httpClient;
     private readonly DataContext _db;
@@ -34,12 +35,13 @@ class Crawler : ICrawler
     {
         Scrap scrap = new Scrap();
         HttpResponseMessage httpResponse = await _httpClient.GetAsync(url);
-        string htmlContent = httpResponse.Content.ToString();
+        var htmlContent = await httpResponse.Content.ReadAsStringAsync();
         HtmlDocument htmlDocument = new HtmlDocument();
         htmlDocument.LoadHtml(htmlContent);
         
         //Get Wished Data
-        scrap.Extracteddata = ExtractPageData(htmlDocument);
+        //scrap.Extracteddata = ExtractPageData(htmlDocument);
+        
         //Get Other Links in Page
         scrap.Extractedurls = ExtractPageUrls(htmlDocument);
         

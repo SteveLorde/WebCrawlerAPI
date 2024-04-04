@@ -1,6 +1,6 @@
 ﻿using WebCrawlerDataLayer.Data.Models;
 
-namespace WebCrawlerAPI.Services.CrawlerService;
+namespace WebCrawler.Services.Services.CrawlerService;
 
 public interface ICrawler
 {

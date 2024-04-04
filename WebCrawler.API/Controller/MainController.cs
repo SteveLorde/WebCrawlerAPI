@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using WebCrawlerAPI.Services.CrawlerService;
+using WebCrawler.Services.Services.CrawlerService;
 using WebCrawlerDataLayer.Data.Models;
 
 namespace WebCrawlerAPI.Controller;

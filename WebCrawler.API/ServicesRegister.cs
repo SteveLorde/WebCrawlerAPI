@@ -1,7 +1,7 @@
-﻿using WebCrawlerAPI.Services.CrawlerService;
+﻿using WebCrawler.Services.Services.CrawlerService;
 using WebCrawlerDataLayer.Data;
 
-namespace WebCrawlerAPI.Services;
+namespace WebCrawlerAPI;
 
 public static class ServicesRegister
 {
