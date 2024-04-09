@@ -15,10 +15,10 @@ public class MainController : Microsoft.AspNetCore.Mvc.Controller
         _crawler = crawler;
     }
     
-    [HttpGet("startcrawler")]
-    public async Task<List<Scrap>> StartCrawl()
+    [HttpPost("startcrawler")]
+    public async Task<List<Scrap>> StartCrawl(string? CrawlTitle)
     {
-        return await _crawler.StartCrawling();
+        return await _crawler.StartCrawling(CrawlTitle);
     }
     
     

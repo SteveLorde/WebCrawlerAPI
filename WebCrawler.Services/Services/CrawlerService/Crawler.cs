@@ -19,7 +19,7 @@ public class Crawler : ICrawler
         _hostenv = hostenv;
     }
     
-    public async Task<List<Scrap>> StartCrawling()
+    public async Task<List<Scrap>> StartCrawling(string? crawlTitle)
     {
         List<Scrap> scraps = new List<Scrap>();
         var textUrls = TextURLExtract();
