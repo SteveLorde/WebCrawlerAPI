@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using WebCrawler.Services.Services.CrawlerService;
+using WebCrawlerDataLayer.Data.DTOs;
 using WebCrawlerDataLayer.Data.Models;
 
 namespace WebCrawlerAPI.Controller;
@@ -16,9 +17,9 @@ public class MainController : Microsoft.AspNetCore.Mvc.Controller
     }
     
     [HttpPost("startcrawler")]
-    public async Task<List<Scrap>> StartCrawl(string? CrawlTitle)
+    public async Task<List<Scrap>> StartCrawl(CrawlRequest crawlRequest)
     {
-        return await _crawler.StartCrawling(CrawlTitle);
+        return await _crawler.StartCrawling(crawlRequest);
     }
     
     

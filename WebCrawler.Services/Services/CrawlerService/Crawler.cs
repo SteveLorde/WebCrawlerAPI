@@ -2,6 +2,7 @@
 using HtmlAgilityPack;
 using Microsoft.AspNetCore.Hosting;
 using WebCrawlerDataLayer.Data;
+using WebCrawlerDataLayer.Data.DTOs;
 using WebCrawlerDataLayer.Data.Models;
 
 namespace WebCrawler.Services.Services.CrawlerService;
@@ -19,28 +20,27 @@ public class Crawler : ICrawler
         _hostenv = hostenv;
     }
     
-    public async Task<List<Scrap>> StartCrawling(string? crawlTitle)
+    public async Task<ScrapsCollection> StartCrawling(CrawlRequest crawlRequest)
     {
-        List<Scrap> scraps = new List<Scrap>();
-        var textUrls = TextURLExtract();
-        foreach (var url in textUrls)
+        ScrapsCollection scrapsCollection = new ScrapsCollection();
+        foreach (var urlToCrawlRequest in crawlRequest.UrlToCrawlRequests)
         {
-            Scrap scrap = await Scrape(url);
-            scraps.Add(scrap);
+            Scrap scrap = await Scrape(urlToCrawlRequest);
+            scrapsCollection.Scraps.Add(scrap);
         }
-        return scraps;
+        return scrapsCollection;
     }
 
-    private async Task<Scrap> Scrape(string url)
+    private async Task<Scrap> Scrape(URLToCrawlRequest urlToCrawlRequest)
     {
-        Scrap scrap = new Scrap();
-        HttpResponseMessage httpResponse = await _httpClient.GetAsync(url);
+        Scrap scrap = new Scrap(){Url = urlToCrawlRequest.Url};
+        HttpResponseMessage httpResponse = await _httpClient.GetAsync(scrap.Url);
         var htmlContent = await httpResponse.Content.ReadAsStringAsync();
         HtmlDocument htmlDocument = new HtmlDocument();
         htmlDocument.LoadHtml(htmlContent);
         
         //Get Wished Data
-        //scrap.Extracteddata = ExtractPageData(htmlDocument);
+        scrap.Extracteddata = ExtractPageData(urlToCrawlRequest,htmlDocument);
         
         //Get Other Links in Page
         scrap.Extractedurls = ExtractPageUrls(htmlDocument);
@@ -48,9 +48,15 @@ public class Crawler : ICrawler
         return scrap;
     }
 
-    private void ExtractPageData(HtmlDocument htmlDocument)
+    private void ExtractPageData(URLToCrawlRequest urlToCrawlRequest, HtmlDocument htmlDocument)
     {
-        
+        //select HTML elements and by classses
+        foreach (var elementToSelect in urlToCrawlRequest.ElementsToLook)
+        {
+            var selectedelements = htmlDocument.DocumentNode.SelectNodes("");
+        }
+        //filter out by classes
+
     }
     
     private List<string> ExtractPageUrls(HtmlDocument htmlDocument)
