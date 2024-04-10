@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using System.Text;
+using System.Text.RegularExpressions;
 using HtmlAgilityPack;
 using Microsoft.AspNetCore.Hosting;
 using WebCrawlerDataLayer.Data;
@@ -28,12 +29,14 @@ public class Crawler : ICrawler
             Scrap scrap = await Scrape(urlToCrawlRequest);
             scrapsCollection.Scraps.Add(scrap);
         }
+        //save data on file .CSV
+        await SaveDataOnFile(scrapsCollection);
         return scrapsCollection;
     }
 
     private async Task<Scrap> Scrape(URLToCrawlRequest urlToCrawlRequest)
     {
-        Scrap scrap = new Scrap(){Url = urlToCrawlRequest.Url};
+        Scrap scrap = new Scrap(){Url = urlToCrawlRequest.Url , Title = urlToCrawlRequest.Title};
         HttpResponseMessage httpResponse = await _httpClient.GetAsync(scrap.Url);
         var htmlContent = await httpResponse.Content.ReadAsStringAsync();
         HtmlDocument htmlDocument = new HtmlDocument();
@@ -58,6 +61,30 @@ public class Crawler : ICrawler
         //filter out by classes
 
     }
+
+    private async Task<string> SaveDataOnFileAndReturn(ScrapsCollection scrapsCollection)
+    {
+        StringBuilder savedData = new StringBuilder();
+        DateTime crawlDate = DateTime.Now;
+        savedData.AppendLine(crawlDate.ToString());
+        foreach (var scrap in scrapsCollection.Scraps)
+        {
+            var titleanddate = $"{scrap.Title}" + "  " + $"{crawlDate}";
+            savedData.AppendLine(titleanddate);
+            savedData.AppendLine("Extracted Data");
+            foreach (var data in scrap.Extracteddata)
+            {
+                savedData.AppendLine(data);
+            }
+            savedData.AppendLine("Extracted URLs");
+            foreach (var extractedURL in scrap.Extractedurls)
+            {
+                savedData.AppendLine(extractedURL);
+            }
+            savedData.AppendLine("");
+        }
+        return savedData.ToString();
+    }
     
     private List<string> ExtractPageUrls(HtmlDocument htmlDocument)
     {
@@ -72,6 +99,7 @@ public class Crawler : ICrawler
     }
 
     //METHOD TO WORK WITH GIVEN URLS IN TEXT FILES
+    /*
     private List<string> TextURLExtract()
     {
         List<string> requestedUrls = new List<string>();
@@ -87,5 +115,5 @@ public class Crawler : ICrawler
         }
         return requestedUrls;
     }
-    
+    */
 }
