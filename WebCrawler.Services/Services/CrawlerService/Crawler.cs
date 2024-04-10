@@ -34,6 +34,7 @@ public class Crawler : ICrawler
         return scrapsCollection;
     }
 
+
     private async Task<Scrap> Scrape(URLToCrawlRequest urlToCrawlRequest)
     {
         Scrap scrap = new Scrap(){Url = urlToCrawlRequest.Url , Title = urlToCrawlRequest.Title};
@@ -53,12 +54,20 @@ public class Crawler : ICrawler
 
     private void ExtractPageData(URLToCrawlRequest urlToCrawlRequest, HtmlDocument htmlDocument)
     {
+        throw new NotImplementedException();
+        
+        //LOGIC DEPENDS HEAVILY ON KNOWING WEBPAGE'S HTML COMPLEXITY BEFOREHAND
+        IList<string> extractedData = new List<string>();
+        
         //select HTML elements and by classses
-        foreach (var elementToSelect in urlToCrawlRequest.ElementsToLook)
+        foreach (var elementToFind in urlToCrawlRequest.ElementsAndClassesToLook)
         {
+            var elementAndClasses = elementToFind.Split(".");
+            var elementToSelect = elementAndClasses[0];
+            var classesToSelect = elementAndClasses[1].Split(",");
+            
             var selectedelements = htmlDocument.DocumentNode.SelectNodes("");
         }
-        //filter out by classes
 
     }
 

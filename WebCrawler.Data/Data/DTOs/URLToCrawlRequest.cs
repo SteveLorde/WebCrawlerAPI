@@ -3,8 +3,8 @@
 public record URLToCrawlRequest
 {
     public string Title { get; set; }
-    public IList<string> ElementsToLook { get; set; }
-    public IList<string> ClassesToLook { get; set; }
-    public IList<string> ClassesToAvoid { get; set; }
+    
+    //Logic is [element.class,class,class...etc]
+    public IList<string> ElementsAndClassesToLook { get; set; }
     public string Url { get; set; }
 };
