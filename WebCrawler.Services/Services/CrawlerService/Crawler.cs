@@ -30,7 +30,7 @@ public class Crawler : ICrawler
             scrapsCollection.Scraps.Add(scrap);
         }
         //save data on file .CSV
-        await SaveDataOnFile(scrapsCollection);
+        await SaveDataOnFileAndReturn(scrapsCollection);
         return scrapsCollection;
     }
 
@@ -83,6 +83,7 @@ public class Crawler : ICrawler
             }
             savedData.AppendLine("");
         }
+        System.IO.File.WriteAllText($"Storage/{scrapsCollection.Id}/CrawlResult.csv", savedData.ToString());
         return savedData.ToString();
     }
     
