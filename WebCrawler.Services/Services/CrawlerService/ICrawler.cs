@@ -5,5 +5,5 @@ namespace WebCrawler.Services.Services.CrawlerService;
 
 public interface ICrawler
 {
-    public Task<ScrapsCollection> StartCrawling(CrawlRequest crawlRequest);
+    public Task<string> StartCrawling(CrawlRequest crawlRequest);
 }

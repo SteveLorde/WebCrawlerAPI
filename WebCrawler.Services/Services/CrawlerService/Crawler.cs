@@ -2,6 +2,7 @@
 using System.Text.RegularExpressions;
 using HtmlAgilityPack;
 using Microsoft.AspNetCore.Hosting;
+using OpenQA.Selenium.Chrome;
 using WebCrawlerDataLayer.Data;
 using WebCrawlerDataLayer.Data.DTOs;
 using WebCrawlerDataLayer.Data.Models;
@@ -21,7 +22,7 @@ public class Crawler : ICrawler
         _hostenv = hostenv;
     }
     
-    public async Task<ScrapsCollection> StartCrawling(CrawlRequest crawlRequest)
+    public async Task<string> StartCrawling(CrawlRequest crawlRequest)
     {
         ScrapsCollection scrapsCollection = new ScrapsCollection();
         foreach (var urlToCrawlRequest in crawlRequest.UrlToCrawlRequests)
@@ -30,16 +31,22 @@ public class Crawler : ICrawler
             scrapsCollection.Scraps.Add(scrap);
         }
         //save data on file .CSV
-        await SaveDataOnFileAndReturn(scrapsCollection);
-        return scrapsCollection;
+        return await SaveDataOnFileAndReturn(scrapsCollection);
     }
 
 
     private async Task<Scrap> Scrape(URLToCrawlRequest urlToCrawlRequest)
     {
+        var options = new ChromeOptions()
+        {
+            BinaryLocation = @"C:\Program Files (x86)\Google\Chrome\Application\chrome.exe"
+        };            
+        options.AddArguments("headless");
+        var chrome = new ChromeDriver(options);
+        chrome.Navigate().GoToUrl(urlToCrawlRequest.Url);
+        
         Scrap scrap = new Scrap(){Url = urlToCrawlRequest.Url , Title = urlToCrawlRequest.Title};
-        HttpResponseMessage httpResponse = await _httpClient.GetAsync(scrap.Url);
-        var htmlContent = await httpResponse.Content.ReadAsStringAsync();
+        var htmlContent = chrome.PageSource!;
         HtmlDocument htmlDocument = new HtmlDocument();
         htmlDocument.LoadHtml(htmlContent);
         
@@ -93,6 +100,9 @@ public class Crawler : ICrawler
             savedData.AppendLine("");
         }
         System.IO.File.WriteAllText($"Storage/{scrapsCollection.Id}/CrawlResult.csv", savedData.ToString());
+        
+        
+        
         return savedData.ToString();
     }
     

@@ -17,9 +17,10 @@ public class MainController : Microsoft.AspNetCore.Mvc.Controller
     }
     
     [HttpPost("startcrawler")]
-    public async Task<List<Scrap>> StartCrawl(CrawlRequest crawlRequest)
+    public async Task StartCrawl(CrawlRequest crawlRequest)
     {
-        return await _crawler.StartCrawling(crawlRequest);
+        var savedData = await _crawler.StartCrawling(crawlRequest);
+        
     }
     
     

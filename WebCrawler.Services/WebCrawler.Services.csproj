@@ -13,6 +13,8 @@
     <ItemGroup>
         <FrameworkReference Include="Microsoft.AspNetCore.App" />
         <PackageReference Include="HtmlAgilityPack" Version="1.11.60" />
+        <PackageReference Include="Selenium.WebDriver" Version="4.19.0" />
+        <PackageReference Include="Selenium.WebDriver.ChromeDriver" Version="123.0.6312.8600" />
     </ItemGroup>
 
 </Project>
