@@ -2,6 +2,7 @@
 using System.Text.RegularExpressions;
 using HtmlAgilityPack;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
 using OpenQA.Selenium.Chrome;
 using WebCrawlerDataLayer.Data;
 using WebCrawlerDataLayer.Data.DTOs;
@@ -14,12 +15,14 @@ public class Crawler : ICrawler
     private readonly HttpClient _httpClient;
     private readonly DataContext _db;
     private readonly IWebHostEnvironment _hostenv;
+    private readonly IConfiguration _config;
 
-    public Crawler(HttpClient httpClient, DataContext db, IWebHostEnvironment hostenv)
+    public Crawler(HttpClient httpClient, DataContext db, IConfiguration config ,IWebHostEnvironment hostenv)
     {
         _httpClient = httpClient;
         _db = db;
         _hostenv = hostenv;
+        _config = config;
     }
     
     public async Task<string> StartCrawling(CrawlRequest crawlRequest)
@@ -39,7 +42,7 @@ public class Crawler : ICrawler
     {
         var options = new ChromeOptions()
         {
-            BinaryLocation = @"C:\Program Files (x86)\Google\Chrome\Application\chrome.exe"
+            BinaryLocation = _config["ChromeBrowserBinary"]
         };            
         options.AddArguments("headless");
         var chrome = new ChromeDriver(options);
@@ -59,10 +62,10 @@ public class Crawler : ICrawler
         return scrap;
     }
 
-    private void ExtractPageData(URLCrawlRequest urlCrawlRequest, HtmlDocument htmlDocument)
+    private List<string> ExtractPageData(URLCrawlRequest urlCrawlRequest, HtmlDocument htmlDocument)
     {
         //LOGIC DEPENDS HEAVILY ON KNOWING WEBPAGE'S HTML COMPLEXITY BEFOREHAND
-        IList<string> extractedData = new List<string>();
+        List<string> extractedData = new List<string>();
         
         //select HTML elements and by classses
         foreach (var elementToFind in urlCrawlRequest.ElementsAndClassesToLook)
@@ -73,6 +76,8 @@ public class Crawler : ICrawler
             
             var selectedelements = htmlDocument.DocumentNode.SelectNodes($"{}");
         }
+
+        return extractedData;
 
     }
 
