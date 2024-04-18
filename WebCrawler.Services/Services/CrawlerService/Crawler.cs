@@ -122,7 +122,7 @@ public class Crawler : ICrawler
     private List<string> ExtractPageUrls(HtmlDocument htmlDocument)
     {
         List<string> extractedUrls = new List<string>();
-        var anchorNodes = htmlDocument.DocumentNode.SelectNodes("a");
+        var anchorNodes = htmlDocument.DocumentNode.SelectNodes("//a");
         foreach (var anchornode in anchorNodes)
         {
             var link = anchornode.GetAttributeValue("href", "");
