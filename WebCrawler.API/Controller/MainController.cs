@@ -9,17 +9,17 @@ namespace WebCrawlerAPI.Controller;
 [Route("crawler")]
 public class MainController : Microsoft.AspNetCore.Mvc.Controller
 {
-    private readonly ICrawler _crawler;
+    private readonly ICrawler _crawlerService;
 
-    public MainController(ICrawler crawler)
+    public MainController(ICrawler crawlerService)
     {
-        _crawler = crawler;
+        _crawlerService = crawlerService;
     }
     
     [HttpPost("startcrawler")]
     public async Task StartCrawl(CrawlRequest crawlRequest)
     {
-        var savedData = await _crawler.StartCrawling(crawlRequest);
+        var savedData = await _crawlerService.StartCrawling(crawlRequest);
         
     }
     
