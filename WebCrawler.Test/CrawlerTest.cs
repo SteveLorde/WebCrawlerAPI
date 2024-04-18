@@ -21,7 +21,7 @@ public class CrawlerTest
             //Logic is [element.class,class,class...etc]
             ElementsAndClassesToLook = new List<string>() {"p.class1,class2", "div.class1,class2"},
             LoginCredential = "username",
-            PasswordCredential = "passwrod"
+            PasswordCredential = "password"
         };
         HttpContent requestContent = new StringContent(crawlRequest.ToString(), Encoding.UTF8, "application/json");
         HttpResponseMessage response = await _httpClient.PostAsync(_crawlerServiceURL, requestContent);
