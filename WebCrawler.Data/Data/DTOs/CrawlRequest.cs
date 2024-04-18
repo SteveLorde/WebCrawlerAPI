@@ -2,5 +2,5 @@
 
 public record CrawlRequest
 {
-    public IList<URLToCrawlRequest> UrlToCrawlRequests { get; set; }
+    public List<URLCrawlRequest> UrlToCrawlRequests { get; set; } = new List<URLCrawlRequest>();
 }

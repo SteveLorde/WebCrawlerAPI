@@ -35,7 +35,7 @@ public class Crawler : ICrawler
     }
 
 
-    private async Task<Scrap> Scrape(URLToCrawlRequest urlToCrawlRequest)
+    private async Task<Scrap> Scrape(URLCrawlRequest urlCrawlRequest)
     {
         var options = new ChromeOptions()
         {
@@ -43,15 +43,15 @@ public class Crawler : ICrawler
         };            
         options.AddArguments("headless");
         var chrome = new ChromeDriver(options);
-        chrome.Navigate().GoToUrl(urlToCrawlRequest.Url);
+        chrome.Navigate().GoToUrl(urlCrawlRequest.Url);
         
-        Scrap scrap = new Scrap(){Url = urlToCrawlRequest.Url , Title = urlToCrawlRequest.Title};
+        Scrap scrap = new Scrap(){Url = urlCrawlRequest.Url , Title = urlCrawlRequest.Title};
         var htmlContent = chrome.PageSource!;
         HtmlDocument htmlDocument = new HtmlDocument();
         htmlDocument.LoadHtml(htmlContent);
         
         //Get Wished Data
-        scrap.Extracteddata = ExtractPageData(urlToCrawlRequest,htmlDocument);
+        scrap.Extracteddata = ExtractPageData(urlCrawlRequest,htmlDocument);
         
         //Get Other Links in Page
         scrap.Extractedurls = ExtractPageUrls(htmlDocument);
@@ -59,21 +59,19 @@ public class Crawler : ICrawler
         return scrap;
     }
 
-    private void ExtractPageData(URLToCrawlRequest urlToCrawlRequest, HtmlDocument htmlDocument)
+    private void ExtractPageData(URLCrawlRequest urlCrawlRequest, HtmlDocument htmlDocument)
     {
-        throw new NotImplementedException();
-        
         //LOGIC DEPENDS HEAVILY ON KNOWING WEBPAGE'S HTML COMPLEXITY BEFOREHAND
         IList<string> extractedData = new List<string>();
         
         //select HTML elements and by classses
-        foreach (var elementToFind in urlToCrawlRequest.ElementsAndClassesToLook)
+        foreach (var elementToFind in urlCrawlRequest.ElementsAndClassesToLook)
         {
             var elementAndClasses = elementToFind.Split(".");
             var elementToSelect = elementAndClasses[0];
             var classesToSelect = elementAndClasses[1].Split(",");
             
-            var selectedelements = htmlDocument.DocumentNode.SelectNodes("");
+            var selectedelements = htmlDocument.DocumentNode.SelectNodes($"{}");
         }
 
     }
