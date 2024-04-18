@@ -77,7 +77,7 @@ public class Crawler : ICrawler
         // Submit the form
         submitButton.Click();
     }
-
+    
     private List<string> ExtractPageData(URLCrawlRequest urlCrawlRequest, HtmlDocument htmlDocument)
     {
         //LOGIC DEPENDS HEAVILY ON KNOWING WEBPAGE'S HTML COMPLEXITY BEFOREHAND
@@ -88,8 +88,11 @@ public class Crawler : ICrawler
             var elementAndClasses = elementToFind.Split(".");
             var elementToSelect = elementAndClasses[0];
             var classesToSelect = elementAndClasses[1].Split(",");
-            
-            var selectedelements = htmlDocument.DocumentNode.SelectNodes($"{}");
+            foreach (var classToSelect in classesToSelect)
+            {
+                HtmlNodeCollection selectedelements = htmlDocument.DocumentNode.SelectNodes($"//{elementToSelect}[@class={classToSelect}]");
+                extractedData.Add(selectedelements.ToString()!);
+            }
         }
         return extractedData;
     }
