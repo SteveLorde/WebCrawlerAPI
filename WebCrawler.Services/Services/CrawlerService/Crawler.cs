@@ -3,6 +3,7 @@ using System.Text.RegularExpressions;
 using HtmlAgilityPack;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
+using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using WebCrawlerDataLayer.Data;
 using WebCrawlerDataLayer.Data.DTOs;
@@ -48,6 +49,9 @@ public class Crawler : ICrawler
         var chrome = new ChromeDriver(options);
         chrome.Navigate().GoToUrl(urlCrawlRequest.Url);
         
+        //Try Login
+        Login(chrome, urlCrawlRequest);
+        
         Scrap scrap = new Scrap(){Url = urlCrawlRequest.Url , Title = urlCrawlRequest.Title};
         var htmlContent = chrome.PageSource!;
         HtmlDocument htmlDocument = new HtmlDocument();
@@ -62,11 +66,22 @@ public class Crawler : ICrawler
         return scrap;
     }
 
+    private void Login(ChromeDriver browser, URLCrawlRequest urlCrawlRequest)
+    {
+        IWebElement usernameInput = browser.FindElement(By.Id("username"));
+        IWebElement passwordInput = browser.FindElement(By.Id("password"));
+        IWebElement submitButton = browser.FindElement(By.Id("submit"));
+        // Enter credentials
+        usernameInput.SendKeys($"{urlCrawlRequest.LoginCredential}");
+        passwordInput.SendKeys($"{urlCrawlRequest.PasswordCredential}");
+        // Submit the form
+        submitButton.Click();
+    }
+
     private List<string> ExtractPageData(URLCrawlRequest urlCrawlRequest, HtmlDocument htmlDocument)
     {
         //LOGIC DEPENDS HEAVILY ON KNOWING WEBPAGE'S HTML COMPLEXITY BEFOREHAND
         List<string> extractedData = new List<string>();
-        
         //select HTML elements and by classses
         foreach (var elementToFind in urlCrawlRequest.ElementsAndClassesToLook)
         {
@@ -76,9 +91,7 @@ public class Crawler : ICrawler
             
             var selectedelements = htmlDocument.DocumentNode.SelectNodes($"{}");
         }
-
         return extractedData;
-
     }
 
     private async Task<string> SaveDataOnFileAndReturn(ScrapsCollection scrapsCollection)
@@ -103,9 +116,6 @@ public class Crawler : ICrawler
             savedData.AppendLine("");
         }
         System.IO.File.WriteAllText($"Storage/{scrapsCollection.Id}/CrawlResult.csv", savedData.ToString());
-        
-        
-        
         return savedData.ToString();
     }
     
